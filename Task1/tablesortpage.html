@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>(Task1)Table View with Sort and Pagination</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1{
+            text-align: center;
+        }
+        p{
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #dddddd;
+            text-align: left;
+            cursor: pointer;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .pagination {
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .pagination button {
+            padding: 5px 10px;
+            margin: 0 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Table View with Sort and Pagination</h1>
+    <p>Create an HTML page with a table view.
+        Add sort and pagination using plain JavaScript.</p>
+    <table>
+        <thead>
+            <tr>
+                <th onclick="sortTableByColumn(0)">Name</th>
+                <th onclick="sortTableByColumn(1)">Age</th>
+                <th onclick="sortTableByColumn(2)">City</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <tr><td>Manoj</td><td>25</td><td>trichy</td></tr>
+            <tr><td>Neha</td><td>30</td><td>chennai </td></tr>
+            <tr><td>Ravi</td><td>22</td><td>coimbatore</td></tr>
+            <tr><td>priya</td><td>28</td><td>ariyalur</td></tr>
+            <tr><td>mohan</td><td>35</td><td>manavai</td></tr>
+            <tr><td>dharshini</td><td>20</td><td>madurai</td></tr>
+            <tr><td>mani</td><td>27</td><td>coimbatore</td></tr>
+            <tr><td>chinna</td><td>31</td><td>thanjavur</td></tr>
+            <tr><td>albert</td><td>29</td><td>kumbakonam</td></tr>
+            <tr><td>banu</td><td>23</td><td>ariyalur</td></tr>
+        </tbody>
+    </table>
+    <div class="pagination" id="paginationControls"></div>
+
+    <script>
+        const ROWS_PER_PAGE = 5;
+        let currentPage = 1;
+        const tableBody = document.getElementById('tableBody');
+        const paginationControls = document.getElementById('paginationControls');
+        const allRows = Array.from(tableBody.rows);
+
+        function displayTablePage(pageNumber) {
+            tableBody.innerHTML = '';
+            const startIndex = (pageNumber - 1) * ROWS_PER_PAGE;
+            const endIndex = startIndex + ROWS_PER_PAGE;
+            const rowsToDisplay = allRows.slice(startIndex, endIndex);
+
+            rowsToDisplay.forEach(row => {
+                tableBody.appendChild(row);
+            });
+
+            updatePaginationControls(pageNumber);
+        }
+
+        function updatePaginationControls(pageNumber) {
+            paginationControls.innerHTML = '';
+            const totalPages = Math.ceil(allRows.length / ROWS_PER_PAGE);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.onclick = () => {
+                    currentPage = i;
+                    displayTablePage(i);
+                };
+                if (i === pageNumber) pageButton.style.fontWeight = 'bold';
+                paginationControls.appendChild(pageButton);
+            }
+        }
+
+        function sortTableByColumn(columnIndex) {
+            const sortedRows = [...allRows].sort((a, b) => {
+                const cellA = a.cells[columnIndex].textContent;
+                const cellB = b.cells[columnIndex].textContent;
+
+                if (columnIndex === 1) {
+                    return Number(cellA) - Number(cellB);
+                }
+                return cellA.localeCompare(cellB);
+            });
+
+            allRows.splice(0, allRows.length, ...sortedRows);
+            displayTablePage(currentPage);
+        }
+
+        displayTablePage(currentPage);
+    </script>
+</body>
+</html>

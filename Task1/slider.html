@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>(Task1)Create an infinite slider with arrow buttons using HTML, CSS, and plain JavaScript.</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f0f0f0, #a0a0a0);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .text {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .slider {
+            position: relative;
+            width: 60%;
+            overflow: hidden;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+        .slider-wrapper {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+        .slide img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .arrow-left {
+            left: 10px;
+        }
+        .arrow-right {
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="text">
+        <h1>Create an infinite slider with arrow buttons using HTML, CSS, and plain JavaScript.</h1>
+    </div>
+    <div class="slider">
+        <div class="slider-wrapper">
+            <div class="slide"><img src="https://themeselection-cdn.b-cdn.net/wp-content/uploads/2023/07/materio-html-pro-banner-github.png" alt="Slide 3"></div>
+            <div class="slide"><img src="https://www.freecodecamp.org/news/content/images/size/w2000/2021/04/BG.png" alt="Slide 1"></div>
+            <div class="slide"><img src="https://themeselection-cdn.b-cdn.net/wp-content/uploads/2023/03/screenshot-www.amazon.com-2023.03.06-13_20_13.png" alt="Slide 2"></div>
+            <div class="slide"><img src="https://themeselection-cdn.b-cdn.net/wp-content/uploads/2023/07/materio-html-pro-banner-github.png" alt="Slide 3"></div>
+            <div class="slide"><img src="https://www.freecodecamp.org/news/content/images/size/w2000/2021/04/BG.png" alt="Slide 1"></div>
+        </div>
+        <button class="arrow arrow-left">&lt;</button>
+        <button class="arrow arrow-right">&gt;</button>
+    </div>
+
+    <script>
+        const sliderWrapper = document.querySelector('.slider-wrapper');
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentIndex = 1;
+
+        document.querySelector('.arrow-right').addEventListener('click', () => {
+            moveToNextSlide();
+        });
+
+        document.querySelector('.arrow-left').addEventListener('click', () => {
+            moveToPreviousSlide();
+        });
+
+        function moveToNextSlide() {
+            currentIndex++;
+            if (currentIndex === totalSlides - 1) {
+                setTimeout(() => {
+                    sliderWrapper.style.transition = 'none';
+                    currentIndex = 1;
+                    updateSlider();
+                }, 500);
+            }
+            updateSlider();
+        }
+
+        function moveToPreviousSlide() {
+            currentIndex--;
+            if (currentIndex === 0) {
+                setTimeout(() => {
+                    sliderWrapper.style.transition = 'none';
+                    currentIndex = totalSlides - 2;
+                    updateSlider();
+                }, 500);
+            }
+            updateSlider();
+        }
+
+        function updateSlider() {
+            sliderWrapper.style.transition = 'transform 0.5s ease';
+            sliderWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        // Set initial position
+        sliderWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        // Automatic slide transition every 10 seconds
+        setInterval(moveToNextSlide, 10000);
+    </script>
+</body>
+</html>
