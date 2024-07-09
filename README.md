@@ -21,6 +21,8 @@ Different types of Architectures are available. These are 3-tier Architecture, N
 The main advantage of Architecture is Reusability, Security and Increasing the performance of Application.
 
 ![php-mvc-architecture](https://github.com/meenatchisundharam/Prevaj-Consultants-Pvt-Ltd-Tasks/assets/121151601/e59735d6-9f6b-44d6-9d99-2990547f99b1)
+
+
 Model: Database operation such as fetch data or update data etc.
 
 View: End-user GUI through which user can interact with system, i.e., HTML, CSS.
